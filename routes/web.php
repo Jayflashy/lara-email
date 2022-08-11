@@ -19,4 +19,6 @@ Route::get('/', [HomeController::class,'index'])->name('index');
 Route::get('/home', [HomeController::class,'index']);
 
 Route::get('/email', [HomeController::class,'email'])->name('email');
-Route::get('/setting', [HomeController::class,'setting'])->name('setting');
+Route::post('/send-email', [HomeController::class,'send_email'])->name('email');
+Route::get('/settings', [HomeController::class,'setting'])->name('setting');
+Route::post('/settings', [HomeController::class,'save_settings'])->name('setting');

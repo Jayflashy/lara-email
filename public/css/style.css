@@ -1,3 +1,6 @@
 body {
     min-height: 45rem;
-  }
+}
+.form-group{
+    margin-bottom:.5rem;
+}
