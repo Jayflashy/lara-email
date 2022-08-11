@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\Sendmail;
+
 
 class HomeController extends Controller
 {
@@ -19,7 +22,28 @@ class HomeController extends Controller
     // send email
     public function send_email(Request $request)
     {
-        return $request->all();
+        // validate requests
+        $this->validate($request, [
+            'emails'     =>  'required',
+            'subject'   =>  'required',
+            'content'   =>  'required'
+        ]);
+        // format emails
+        $emails = array_filter(array_map('trim', explode(',', $request->emails)));
+        foreach ($emails as $key => $email) {
+            $data['view'] = 'sendmail';
+            $data['subject'] = $request->subject;
+            $data['email'] = env('MAIL_FROM_ADDRESS');
+            $data['fname'] = env('MAIL_FROM_NAME');
+            $data['message'] = $request->content;
+            
+            try {
+                Mail::to($email)->queue(new Sendmail($data));
+            } catch (\Exception $e) {
+                dd($e);
+            }
+        }  
+        return back()->withSuccess('Email sent successfully');
     }
      function setting()
     {

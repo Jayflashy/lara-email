@@ -1,11 +1,22 @@
 @extends('layouts.main')
 @section('title', "Settings")
 @section('content')
-<div class="row p-3">
 <div class="card">
     <div class="card-header">
         <h4> General Settings</h4> 
         {{-- sessions --}}
+        @if(Session::get('success'))
+        <div class="alert alert-success alert-dismissible fade show mb-0" role="alert">
+            {{Session::get('success')}}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        @endif
+        @if(Session::get('error'))
+        <div class="alert alert-danger alert-dismissible fade show mb-0" role="alert">
+            {{Session::get('error')}}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        @endif
     </div>
     <div class="card-body">
         <form action="{{route('setting')}}" method="POST" class="">
@@ -89,6 +100,5 @@
         </form>
    
     </div>
-</div>
 </div>
 @endsection
